@@ -5,7 +5,11 @@ class HelloWorld
   def call(env)
     case env['REQUEST_PATH']
     when '/'
-      ['200', {"Content-Type" => 'text/html'}, ["<h1>Welcome!</h1>"]]
+      ['200', {"Content-Type" => 'application/json'},
+        [[
+          {:routes => '/inspiration', :for => 'Random inspirational quote in JSON format'},
+          {:routes => '/quotes?number=8', :for => 'Returns specified number of inspirational quotes in JSON format'}
+        ].to_json]]
 
     when '/inspiration' #returns a random inspirational quote
       piece_of_inspiration = Inspiration.new.generate    # random inspiration
